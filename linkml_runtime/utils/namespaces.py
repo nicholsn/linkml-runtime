@@ -115,24 +115,24 @@ class Namespaces(CaseInsensitiveDict):
         @param default_ok: True means the default prefix is ok. Otherwise we have to have a reql prefix
         @param pythonform: True means take the python/rdflib uppercase format
         """
-        if ':' in uri and ':/' not in uri:
+        if ':' in str(uri) and ':/' not in str(uri):
             raise ValueError(f"{TypedNode.yaml_loc(uri)}Not a valid URI: {uri}")
 
         if pythonform:
             default_ok = False
-        match: Tuple[str, Optional[Namespace]] = ('', None)     # match string / prefix
+        match_: Tuple[str, Optional[Namespace]] = ('', None)     # match string / prefix
         u = str(uri)
 
         # Find the longest match
         for k, v in self.items():
             vs = str(v)
             if u.startswith(vs):
-                if len(vs) > len(match[0]) and (default_ok or k not in (Namespaces._default_key, Namespaces._base_key)):
-                    match = (vs, k)
-        if len(match[0]):
+                if len(vs) > len(match_[0]) and (default_ok or k not in (Namespaces._default_key, Namespaces._base_key)):
+                    match_ = (vs, k)
+        if len(match_[0]):
             if pythonform:
-                ns = match[1].upper()
-                ln = u.replace((match[0]), '')
+                ns = match_[1].upper()
+                ln = u.replace((match_[0]), '')
                 if not ln:
                     return f"URIRef(str({ns}))"
                 elif ln.isidentifier():
@@ -140,9 +140,9 @@ class Namespaces(CaseInsensitiveDict):
                 else:
                     return f'{ns}["{ln}"]'
             else:
-                return u.replace(match[0],
-                                 ':' if match[1] == Namespaces._default_key else
-                                 '' if match[1] == Namespaces._base_key else match[1] + ':')
+                return u.replace(match_[0],
+                                 ':' if match_[1] == Namespaces._default_key else
+                                 '' if match_[1] == Namespaces._base_key else match_[1] + ':')
         return None
 
     def prefix_for(self, uri_or_curie: Any, case_shift: bool = True) -> Optional[str]:
@@ -185,8 +185,9 @@ class Namespaces(CaseInsensitiveDict):
 
     def uri_or_curie_for(self, prefix: Union[str, URIRef], suffix: str) -> str:
         """ Return a CURIE for prefix/suffix in possible, else a URI """
-        if isinstance(prefix, URIRef) or ':/' in prefix:
-            prefix_as_uri = str(prefix)
+        prefix_str = str(prefix)
+        if isinstance(prefix, URIRef) or ':/' in prefix_str:
+            prefix_as_uri = prefix_str
             for k, v in self.items():
                 if not k.startswith('@') and prefix_as_uri == str(v):
                     return k + ':' + suffix
