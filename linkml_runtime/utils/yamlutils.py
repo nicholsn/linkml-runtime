@@ -128,7 +128,7 @@ class YAMLRoot(JsonObj):
                     f"Slot: {loc(slot_name)} - attribute {loc(key_name)} " \
                     f"value ({loc(cooked_entry[key_name])}) does not match key ({loc(key)})")
             if keyed and key in cooked_keys:
-                raise ValueError(f"{loc(key)}: duplicate key")
+                raise ValueError(f"{loc(key)}: {} duplicate key")
             cooked_keys.add(key)
             if is_list:
                 cooked_slot.append(cooked_entry)
@@ -385,7 +385,7 @@ class DupCheckYamlLoader(yaml.loader.SafeLoader):
             key = loader.construct_object(key_node, deep=deep)
             value = loader.construct_object(value_node, deep=deep)
             if key in mapping:
-                raise ValueError(f"Duplicate key: \"{key}\"")
+                raise ValueError(f"Duplicate key: \"{node.value}\"")
             mapping[key] = value
         return mapping
 
