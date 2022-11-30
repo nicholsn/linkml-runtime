@@ -4,8 +4,9 @@ from typing import Union, TextIO, Type, Optional
 
 from hbreader import FileInfo
 
-from linkml_runtime.loaders import yaml_loader, json_loader, rdf_loader, RDFLoader
+from linkml_runtime.loaders import yaml_loader, json_loader, rdf_loader, RDFLoader, csv_loader
 from linkml_runtime.utils.yamlutils import YAMLRoot
+from linkml_runtime.utils.schemaview import SchemaView
 from tests.test_loaders_dumpers import LD_11_SVR, LD_11_SSL_SVR, LD_11_DIR
 from tests.test_loaders_dumpers.environment import env
 from tests.test_loaders_dumpers.loaderdumpertestcase import LoaderDumperTestCase
@@ -28,6 +29,13 @@ class LoadersUnitTest(LoaderDumperTestCase):
     def test_json_loader(self):
         """ Load obo_sample.json, emit obo_sample_json.yaml and check the results """
         self.loader_test('obo_sample.json', Package, json_loader)
+
+    def test_csv_loader(self):
+
+        sv = SchemaView("../models/omop.yaml")
+
+        self.loader_test('CONCEPT.csv', , csv_loader)
+
 
     @unittest.skipIf(True, "This test will not work until https://github.com/digitalbazaar/pyld/issues/149 is fixed")
     def test_rdf_loader(self):
