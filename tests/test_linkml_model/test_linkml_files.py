@@ -29,6 +29,7 @@ EXPECTED_FORMATS = [
 ]
 
 W3ID_EXTENSIONS = (
+    'xlsx',
     'html',
     'yaml',
     'graphql',
@@ -38,9 +39,14 @@ W3ID_EXTENSIONS = (
     'json',
     'ttl',
     'owl',
+    'prefixmap',
+    'shexj',
+    'proto',
+    'shacl.ttl',
     'shex',
     'shexc',
-    'shexj'
+    'shexj',
+    'sql',
 )
 W3ID_FORMATS = [
     (source, fmt) for source, fmt in EXPECTED_FORMATS
