@@ -5,6 +5,7 @@ from copy import copy
 from pathlib import Path
 from typing import List
 from unittest import TestCase
+from pprint import pprint
 
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.linkml_model.meta import SchemaDefinition, ClassDefinition, SlotDefinitionName, SlotDefinition, \
@@ -31,6 +32,56 @@ AGE_IN_YEARS = 'age in years'
 
 
 class SchemaViewTestCase(unittest.TestCase):
+
+    def test_attributes(self):
+        view = SchemaView(SCHEMA_WITH_IMPORTS)
+        martian = view.get_class('Martian')
+        for s in martian.attributes.values():
+            print("martian attributes")
+            print("slot.name:", s.name)
+            print("slot.range:", s.range)
+            print("slot.required:", s.required)
+            print("slot.multivalued:", s.multivalued)
+        if martian.slots:
+            print("martian slots")
+        else:
+            print("no slots")
+        for s in martian.slots:
+            print("slot.name:", view.get_slot(s))
+            print("slot.range:", view.get_slot(s).range)
+            print("slot.required:", view.get_slot(s).required)
+            print("slot.multivalued:", view.get_slot(s).multivalued)
+        print("martian induced slots")
+        for s in view.class_induced_slots("Martian"):
+            print("slot.name:", s.name)
+            print("slot.range:", s.range)
+            print("slot.required:", s.required)
+            print("slot.multivalued:", s.multivalued)
+
+        venetian = view.get_class('Venetian')
+        for s in venetian.attributes.values():
+            print("venetian attributes")
+            print("slot.name:", s.name)
+            print("slot.range:", s.range)
+            print("slot.required:", s.required)
+            print("slot.multivalued:", s.multivalued)
+        if venetian.slots:
+            print("venetian slots\n")
+        else:
+            print("no slots\n")
+        for s in venetian.slots:
+            print("slot.name:", view.get_slot(s).name)
+            print("slot.range:", view.get_slot(s).range)
+            print("slot.required:", view.get_slot(s).required)
+            print("slot.multivalued:", view.get_slot(s).multivalued)
+        print()
+        print("venetian class induced slots")
+        print()
+        for s in view.class_induced_slots("Venetian"):
+            print("slot.name:", view.get_slot(s.name).name)
+            print("slot.range:", s.range)
+            print("slot.required:", s.required)
+            print("slot.multivalued:", s.multivalued)
 
     def test_children_method(self):
         view = SchemaView(SCHEMA_NO_IMPORTS)

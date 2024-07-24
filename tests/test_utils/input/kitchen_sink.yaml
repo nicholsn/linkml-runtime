@@ -86,6 +86,24 @@ classes:
       age in years:
         minimum_value: 16
 
+  Martian:
+    is_a: Person
+    attributes:
+      age in years:
+        required: true
+
+  Venetian:
+    is_a: Person
+    slots:
+      - age in years
+    slot_usage:
+      age in years:
+        required: true
+    attributes:
+      neighborhood:
+        range: string
+        required: true
+
   Organization:
     is_a: Thing
     mixins:
@@ -223,6 +241,7 @@ slots:
     in_subset:
       - subset A
       - subset B
+    required: false
   related to:
     range: Thing
   type:
