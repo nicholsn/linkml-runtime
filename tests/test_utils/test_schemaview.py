@@ -44,13 +44,14 @@ class SchemaViewTestCase(unittest.TestCase):
             print("slot.multivalued:", s.multivalued)
         if martian.slots:
             print("martian slots")
+            for s in martian.slots:
+                print("slot.name:", view.get_slot(s))
+                print("slot.range:", view.get_slot(s).range)
+                print("slot.required:", view.get_slot(s).required)
+                print("slot.multivalued:", view.get_slot(s).multivalued)
         else:
             print("no slots")
-        for s in martian.slots:
-            print("slot.name:", view.get_slot(s))
-            print("slot.range:", view.get_slot(s).range)
-            print("slot.required:", view.get_slot(s).required)
-            print("slot.multivalued:", view.get_slot(s).multivalued)
+
         print("martian induced slots")
         for s in view.class_induced_slots("Martian"):
             print("slot.name:", s.name)
@@ -67,16 +68,15 @@ class SchemaViewTestCase(unittest.TestCase):
             print("slot.multivalued:", s.multivalued)
         if venetian.slots:
             print("venetian slots\n")
+            for s in venetian.slots:
+                print("slot.name:", view.get_slot(s).name)
+                print("slot.range:", view.get_slot(s).range)
+                print("slot.required:", view.get_slot(s).required)
+                print("slot.multivalued:", view.get_slot(s).multivalued)
         else:
             print("no slots\n")
-        for s in venetian.slots:
-            print("slot.name:", view.get_slot(s).name)
-            print("slot.range:", view.get_slot(s).range)
-            print("slot.required:", view.get_slot(s).required)
-            print("slot.multivalued:", view.get_slot(s).multivalued)
-        print()
+
         print("venetian class induced slots")
-        print()
         for s in view.class_induced_slots("Venetian"):
             print("slot.name:", view.get_slot(s.name).name)
             print("slot.range:", s.range)
